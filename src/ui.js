@@ -132,7 +132,7 @@ const Ui = {
     const card = this.open(t('menu'), 'var(--cyan)');
     const sr = this.el('div', 'setting-row'); sr.appendChild(this.el('span', '', t('sound')));
     const tg = this.el('button', 'tgl' + (Save.d.sound ? ' on' : '')); tg.setAttribute('aria-label', t('sound'));
-    tg.onclick = () => { Save.d.sound = !Save.d.sound; Sfx.setOn(Save.d.sound); Save.save(); tg.classList.toggle('on', Save.d.sound); Sfx.play('click'); };
+    tg.onclick = () => { Save.d.sound = !Save.d.sound; Sfx.setOn(Save.d.sound); Save.save(); tg.classList.toggle('on', Save.d.sound); Sfx.play('click'); Ads.setSound(Save.d.sound); };
     sr.appendChild(tg); card.appendChild(sr);
     const grid = this.el('div', 'menu-grid');
     grid.appendChild(this.btn('🌐 ' + LANG_NAMES[lang()], 'c-blue', () => {
@@ -289,7 +289,17 @@ const Ui = {
   showRevive() {
     const card = this.open(t('game_over'), 'var(--red)', { noDismiss: true, noClose: true });
     card.appendChild(this.el('p', '', t('revive_desc')));
-    card.appendChild(this.btn('❤ ' + t('revive'), 'c-green wide', () => { this.closeAll(); revive(); }));
+    const withAd = Ads.available();
+    const left = maxRevives() - G.revives;
+    const rb = this.btn((withAd ? '📺 ' + t('ad_revive') : '❤ ' + t('revive')), 'c-green wide', async () => {
+      if (!withAd) { this.closeAll(); revive(); return; }
+      rb.disabled = true; this.toast(t('ad_loading'));
+      const st = await Ads.reward('revive');
+      if (st === 'viewed' || st === 'unavailable') { this.closeAll(); revive(); }   // no fill → still free (never punish the player for our ad gaps)
+      else { rb.disabled = false; this.toast(t('ad_not_finished')); }
+    });
+    card.appendChild(rb);
+    if (maxRevives() > 1) card.appendChild(this.el('p', 'note', t('revive_left', left)));
     card.appendChild(this.btn(t('give_up'), 'c-slate wide', () => { this.closeAll(); finishRun(); }));
   },
   showGameOver(isNew) {
@@ -324,8 +334,18 @@ const Ui = {
     card.appendChild(this.el('p', '', t('level_goal')));
     card.appendChild(this.el('div', 'stat-grid'));
     card.lastChild.appendChild(this.el('div', 'stat', `<b>${G.adv.red + G.adv.blue}</b><span>${t('gems_left')}</span>`));
+    const n = G.adv.n;
+    if (Ads.available() && (G.advFails[n] | 0) >= ADS.SKIP_AFTER_FAILS && n < Levels.COUNT) {
+      const sb = this.btn('📺 ' + t('ad_skip_level'), 'c-amber wide', async () => {
+        sb.disabled = true; this.toast(t('ad_loading'));
+        const st = await Ads.reward('skip_level');
+        if (st === 'viewed') { this.closeAll(); skipLevel(n); }
+        else { sb.disabled = false; this.toast(t(st === 'dismissed' ? 'ad_not_finished' : 'ad_unavailable')); }
+      });
+      card.appendChild(sb);
+    }
     const row = this.el('div', 'row');
-    row.appendChild(this.btn(t('retry'), 'c-green', () => { this.closeAll(); startAdventure(G.adv.n); }));
+    row.appendChild(this.btn(t('retry'), 'c-green', () => { this.closeAll(); startAdventure(n); }));
     row.appendChild(this.btn(t('home'), 'c-slate', () => this.goTitle()));
     card.appendChild(row);
   },

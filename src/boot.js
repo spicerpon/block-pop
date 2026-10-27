@@ -10,7 +10,7 @@ const bodyFont = (px, w = 800) => `${w} ${px}px Nunito, "Noto Sans KR", "Noto Sa
 const Metrics = {
   W: 0, H: 0, dpr: 1,
   boardX: 0, boardY: 0, B: 0, P: 0, cs: 0,
-  subH: 0, swapRect: [0, 0, 0, 0], holdRect: [0, 0, 0, 0], skipRect: [0, 0, 0, 0],
+  subH: 0, bandH: 0, swapRect: [0, 0, 0, 0], holdRect: [0, 0, 0, 0], skipRect: [0, 0, 0, 0],
   trayTop: 0, trayH: 0, slotW: 0, trayScale: 0.5,
   cellCenter(gx, gy) { return [this.boardX + this.P + (gx + 0.5) * this.cs, this.boardY + this.P + (gy + 0.5) * this.cs]; },
   cellXY(gx, gy) { return [this.boardX + this.P + gx * this.cs, this.boardY + this.P + gy * this.cs]; },
@@ -37,12 +37,13 @@ function layout() {
   hudBottom = clamp(hudBottom, 92, 170);
 
   const bm = 14;
-  const availH = M.H - hudBottom - bm;
+  M.bandH = G.tut ? clamp(M.W * 0.125, 40, 56) : 0;          // tutorial message band reserved above the board
+  const availH = M.H - hudBottom - bm - M.bandH;
   M.B = Math.min(M.W - 22, availH / 1.52);
   M.P = M.B * 0.028;
   M.cs = (M.B - 2 * M.P) / 8;
   M.boardX = (M.W - M.B) / 2;
-  M.boardY = hudBottom + Math.max(0, (availH - M.B * 1.52) * 0.3);
+  M.boardY = hudBottom + M.bandH + Math.max(0, (availH - M.B * 1.52) * 0.3);
   M.subH = M.B * 0.165;
 
   const swW = M.cs * 2.0, swH = M.cs * 1.02;
@@ -103,7 +104,8 @@ function updateSnap() {
   const gy = Math.round((tly - M.boardY - M.P) / M.cs);
   Drag.gx = gx; Drag.gy = gy;
   Drag.valid = gx >= 0 && gy >= 0 && gx + p.w <= 8 && gy + p.h <= 8 && canPlaceAt(p.cells, gx, gy);
-  if (G.tut && Drag.valid && !(gx === G.tut.gx && gy === G.tut.gy)) Drag.valid = false;
+  const st = tutStep();
+  if (st && Drag.valid && !(gx === st.gx && gy === st.gy)) Drag.valid = false;
   Drag.rows.length = 0; Drag.cols.length = 0;
   if (Drag.valid) {
     const ghost = new Set(p.cells.map(([cx, cy]) => idx(gx + cx, gy + cy)));
@@ -124,6 +126,7 @@ function onDown(e) {
 
   const hit = pieceAtPoint(px, py);
   if (!hit) return;
+  if (G.tut) { const cur = tutPiece(); if (!cur || hit.p !== cur) { if (cur) Sfx.play('back'); return; } }   // only the guided piece moves
   canvas.setPointerCapture(e.pointerId);
   Drag.p = hit.p; Drag.from = hit.from;
   Drag.touch = e.pointerType !== 'mouse';
@@ -471,25 +474,35 @@ function drawTutorial(dt) {
   const tu = G.tut; if (!tu) return;
   const M = Metrics, T = Theme.cur;
   tu.t += dt;
-  // banner band above the board
-  const bh = M.cs * 0.95, by = M.boardY - bh - 6;
+  // banner band above the board: message + "board n of 3" dots
+  const bh = (M.bandH || M.cs * 1.12) - 6, by = M.boardY - bh - 5;
   ctx.save();
   ctx.fillStyle = T.light ? 'rgba(40,60,140,0.85)' : 'rgba(12,14,40,0.72)';
   ctx.fillRect(0, by, M.W, bh);
-  ctx.fillStyle = '#fff'; ctx.font = fontStr(bh * 0.5, 700); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText(t('tut_place'), M.W / 2, by + bh / 2 + 1);
+  ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  const msg = t(tu.msg); let fs = bh * 0.42; ctx.font = fontStr(fs, 700);
+  while (fs > bh * 0.26 && ctx.measureText(msg).width > M.W - 32) { fs -= 1; ctx.font = fontStr(fs, 700); }   // long translations shrink to fit
+  ctx.fillText(msg, M.W / 2, by + bh * 0.4 + 1);
+  const nB = TUT_BOARDS.length, dr = bh * 0.07, gap = dr * 5;
+  for (let i = 0; i < nB; i++) {
+    const cx = M.W / 2 + (i - (nB - 1) / 2) * gap, cy = by + bh * 0.8;
+    const on = i < tu.board || (i === tu.board && tu.done), cur = i === tu.board && !tu.done;
+    ctx.beginPath(); ctx.arc(cx, cy, cur ? dr * 1.25 : dr, 0, Math.PI * 2);
+    ctx.fillStyle = on ? '#ffd24a' : cur ? '#ffffff' : 'rgba(255,255,255,0.3)'; ctx.fill();
+  }
   ctx.restore();
   if (tu.done) return;
+  const st = tu.steps[tu.step];
   // target ghost pulse
-  const piece = G.tray[1] || Drag.p;
+  const piece = G.tray[st.slot];
   if (piece && !Drag.p) {
     ctx.save(); ctx.globalAlpha = 0.5 + Math.sin(tu.t * 5) * 0.25;
-    for (const [cx, cy] of piece.cells) { const [px, py] = M.cellXY(tu.gx + cx, tu.gy + cy); ctx.drawImage(Sprites.cache.ghost, px, py, M.cs, M.cs); }
+    for (const [cx, cy] of piece.cells) { const [px, py] = M.cellXY(st.gx + cx, st.gy + cy); ctx.drawImage(Sprites.cache.ghost, px, py, M.cs, M.cs); }
     ctx.restore();
     // guiding hand loop
     const L = 2.1, k = (tu.t % L) / L;
-    const [sx, sy] = M.slotCenter(1);
-    const [tx0, ty0] = M.cellXY(tu.gx, tu.gy);
+    const [sx, sy] = M.slotCenter(st.slot);
+    const [tx0, ty0] = M.cellXY(st.gx, st.gy);
     const tx = tx0 + (piece.w * M.cs) / 2, ty = ty0 + (piece.h * M.cs) / 2;
     let hx = sx, hy = sy, alpha = 1, pressed = false;
     if (k < 0.15) { alpha = k / 0.15; }
@@ -575,6 +588,7 @@ function drawFlights() {
 let lastT = 0;
 function frame(ts) {
   requestAnimationFrame(frame);
+  if (G.adPause) { lastT = ts; return; }                  // an ad is on screen: freeze everything underneath
   const dt = clamp((ts - lastT) / 1000, 0, 0.05);
   lastT = ts;
   G.time += dt;
@@ -621,10 +635,16 @@ function boot() {
   if (window.visualViewport) window.visualViewport.addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(layout, 120); });
 
   requestAnimationFrame((ts) => { lastT = ts; requestAnimationFrame(frame); });
+
+  // Ads (H5 Games Ads). Test ads everywhere except the live site, or with ?adtest=1 on the live site.
+  Ads.onPause = () => { G.adPause = true; Sfx.setOn(false); if (Drag.p) { endDrag(); layoutTray(); } };
+  Ads.onResume = () => { G.adPause = false; Sfx.setOn(Save.d.sound !== false); };
+  Ads.init(ADS.client, { sound: Save.d.sound !== false, test: location.hostname !== 'kogames.dev' || /[?&]adtest=1/.test(location.search) });
+
   if (location.hash === '#about' || location.hash === '#howto') setTimeout(() => Ui.showHowTo(), 300);
   else if (location.hash === '#ranking') setTimeout(() => Ui.showRanking(), 300);
 
   // tiny debug/testing handle (also used to render store assets from the real renderer)
-  window.__bp = { G, Save, Ui, Fx, Sprites, Theme, THEMES, THEME_IDS, PALETTE, Levels, Metrics, Drag, drawLogo, startClassic, startAdventure, startTutorial, skipTutorial, layout, setLang, t, idx, ACH, achProgress };
+  window.__bp = { G, Save, Ui, Fx, Sprites, Theme, THEMES, THEME_IDS, PALETTE, Levels, Metrics, Drag, drawLogo, startClassic, startAdventure, startTutorial, skipTutorial, skipLevel, revive, finishRun, Ads, ADS, TUT_BOARDS, tutStep, layout, setLang, t, idx, ACH, achProgress };
 }
 boot();

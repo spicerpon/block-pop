@@ -8,8 +8,12 @@ const G = {
   score: 0, combo: 0, movesNoClear: 0, maxCombo: 0,
   linesRun: 0, placedRun: 0, poppedRun: 0,
   revived: false, over: false,
+  revives: 0,               // revives used this run (rewarded ad; free when ads are unavailable)
+  runStart: 0,              // performance.now() at run start → interstitials only after real play time
+  adPause: false,           // an ad is on screen → freeze the loop + mute
+  advFails: {},             // session: level → failed attempts (unlocks "watch ad · skip level")
   adv: null,                // { n, red, blue, pending }
-  tut: null,                // { gx, gy, done, t } first-run tutorial
+  tut: null,                // { board, step, steps, msg, done, t } first-run tutorial
   barT: 0,                  // "destroyed blocks" progress bar visibility timer
   setCount: 0,
   hintSwap: false,
@@ -70,8 +74,16 @@ function resetRun() {
   G.score = 0; G.combo = 0; G.movesNoClear = 0; G.maxCombo = 0;
   G.linesRun = 0; G.placedRun = 0; G.poppedRun = 0;
   G.revived = false; G.over = false; G.setCount = 0; G.tut = null; G.barT = 0; G.hintSwap = false; G.committed = false;
+  G.revives = 0; G.runStart = performance.now();
   Fx.clear();
 }
+function playedSeconds() { return (performance.now() - G.runStart) / 1000; }
+// Interstitial before a result card — only after real play time, and Google throttles the frequency itself.
+function adBreakThen(name, next) {
+  if (playedSeconds() < ADS.MIN_PLAY || !Ads.available()) { next(); return; }
+  Ads.interstitial(name).then(next, next);
+}
+function maxRevives() { return Ads.available() ? ADS.MAX_REVIVES : 1; }
 function startClassic() {
   if (!Save.d.tutDone) { startTutorial(); return; }
   resetRun();
@@ -91,17 +103,49 @@ function startAdventure(n) {
   Ui.enterGame();
 }
 
-// First-run tutorial: a wall with one gap, a single 1x4 bar, and a guiding hand.
-function startTutorial() {
+// First-run tutorial — three guided boards, like the original:
+//   1. drag a block to fill a row            2. pop a row and a column with one block
+//   3. three placements in a row → combo     Each board only accepts the guided move.
+// fill: [x0, x1, y0, y1] filled rectangles (inclusive). steps: pieces in the order the hand guides them.
+const TUT_BOARDS = [
+  { msg: 'tut_1', color: 3, fill: [[0, 2, 4, 4], [5, 7, 4, 4]],
+    steps: [{ cells: [[0, 0], [1, 0]], color: 6, slot: 1, gx: 3, gy: 4 }] },
+  { msg: 'tut_2', color: 5, fill: [[0, 3, 3, 3], [5, 7, 3, 3], [4, 4, 0, 2], [4, 4, 4, 7]],
+    steps: [{ cells: [[0, 0]], color: 2, slot: 1, gx: 4, gy: 3 }] },
+  { msg: 'tut_3', color: 1, fill: [[0, 4, 6, 6], [2, 7, 1, 1], [0, 5, 3, 4]],
+    steps: [
+      { cells: [[0, 0], [1, 0], [2, 0]], color: 6, slot: 0, gx: 5, gy: 6 },
+      { cells: [[0, 0], [1, 0]], color: 4, slot: 1, gx: 0, gy: 1 },
+      { cells: [[0, 0], [1, 0], [0, 1], [1, 1]], color: 7, slot: 2, gx: 6, gy: 3 },
+    ] },
+];
+function tutStep() { const tu = G.tut; return tu && !tu.done ? tu.steps[tu.step] : null; }
+function tutPiece() { const st = tutStep(); return st ? G.tray[st.slot] : null; }
+
+function startTutorial(board = 0) {
   resetRun();
   G.mode = 'classic'; G.adv = null;
-  G.tut = { gx: 2, gy: 3, done: false, t: 0 };
-  for (let y = 0; y < 8; y++) { if (y === 3) continue; for (let x = 2; x < 6; x++) G.grid[idx(x, y)] = { c: 3, gem: 0, b: 0 }; }
-  const bar = makePiece({ cells: [[0, 0], [1, 0], [2, 0], [3, 0]] }, 6);
-  bar.slot = 1; bar.appearT = 0.001;
-  G.tray = [null, bar, null];
+  const B = TUT_BOARDS[board];
+  G.tut = { board, step: 0, steps: B.steps, msg: B.msg, done: false, t: 0 };
+  for (const [x0, x1, y0, y1] of B.fill) for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) G.grid[idx(x, y)] = { c: B.color, gem: 0, b: 0 };
+  G.tray = [null, null, null];
+  B.steps.forEach((st, i) => { const p = makePiece({ cells: st.cells }, st.color); p.slot = st.slot; p.appearT = 0.001 + i * 0.08; G.tray[st.slot] = p; });
   layoutTray();
   Ui.enterGame();
+}
+function tutAdvance() {
+  const tu = G.tut; if (!tu || tu.done) return;
+  tu.step++;
+  if (tu.step < tu.steps.length) return;                   // same board, next guided piece
+  tu.done = true;
+  const last = tu.board >= TUT_BOARDS.length - 1;
+  if (last) { tu.msg = 'tut_done'; Save.d.tutDone = true; Save.save(); }
+  Fx.banner(t(last ? 'tut_great' : 'tut_nice'), 'allclear');
+  if (last) Sfx.play('allclear');
+  setTimeout(() => {
+    if (!G.tut) return;
+    if (last) { G.tut = null; startClassic(); } else startTutorial(tu.board + 1);
+  }, last ? 1600 : 1250);
 }
 function skipTutorial() {
   Save.d.tutDone = true; Save.save();
@@ -134,12 +178,7 @@ function placeDraggedPiece(p, gx, gy, fromHold) {
     afterMove();
   }
 
-  if (G.tut && !G.tut.done) {
-    G.tut.done = true;
-    Save.d.tutDone = true; Save.save();
-    Fx.banner(t('tut_great'), 'allclear');
-    setTimeout(() => { if (G.tut) { G.tut = null; startClassic(); } }, 1400);
-  }
+  if (G.tut) tutAdvance();
 }
 
 function performClear(rows, cols, ox, oy, pts, n) {
@@ -222,8 +261,15 @@ function maybeLevelClear() {
     if (!Save.d.advDone.includes(n)) Save.d.advDone.push(n);
     Save.d.advUnlocked = Math.max(Save.d.advUnlocked, Math.min(Levels.COUNT, n + 1));
     Save.save();
-    setTimeout(() => Ui.showLevelClear(n), 900);
+    setTimeout(() => adBreakThen('level_clear', () => Ui.showLevelClear(n)), 900);
   }
+}
+// Adventure: after repeated fails on a level the player may skip it with a rewarded ad.
+function skipLevel(n) {
+  if (!Save.d.advDone.includes(n)) Save.d.advDone.push(n);
+  Save.d.advUnlocked = Math.max(Save.d.advUnlocked, Math.min(Levels.COUNT, n + 1));
+  Save.save();
+  startAdventure(Math.min(Levels.COUNT, n + 1));
 }
 
 function checkEnd() {
@@ -240,7 +286,7 @@ function checkEnd() {
 function gameOver() {
   G.over = true;
   Sfx.play('over');
-  if (!G.revived) { setTimeout(() => Ui.showRevive(), 650); return; }
+  if (G.revives < maxRevives()) { setTimeout(() => Ui.showRevive(), 650); return; }
   finishRun();
 }
 function commitTotals() {
@@ -257,14 +303,15 @@ function finishRun() {
     if (!Save.d.name) Save.d.name = Rank.defaultName();
     Save.save();
     Rank.submit(Save.d.best, Save.d.totDestroyed, Save.d.name, lang());
-    setTimeout(() => Ui.showGameOver(isNew), 300);
+    setTimeout(() => adBreakThen('game_over', () => Ui.showGameOver(isNew)), 300);
   } else {
     Save.save();
-    setTimeout(() => Ui.showLevelFailed(), 300);
+    if (G.adv) G.advFails[G.adv.n] = (G.advFails[G.adv.n] | 0) + 1;
+    setTimeout(() => adBreakThen('level_failed', () => Ui.showLevelFailed()), 300);
   }
 }
 function revive() {
-  G.revived = true; G.over = false;
+  G.revived = true; G.over = false; G.revives++;
   Sfx.play('revive');
   let d = 0;
   for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) {
