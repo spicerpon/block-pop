@@ -59,7 +59,8 @@ const Ui = {
     this.els['score-wrap'].hidden = adv;
     this.els['obj-wrap'].hidden = !adv;
     if (adv) { this.els['lvl-label'].textContent = t('level_n', G.adv.n); this.updateObjectives(true); }
-    requestAnimationFrame(() => layout());   // HUD just became visible → measure it for the board top
+    layout();                                // HUD just became visible → measure it for the board top (and reserve the tutorial band)
+    requestAnimationFrame(() => layout());   // once more after the first paint, in case fonts/safe-areas settle
   },
   goTitle() {
     this.closeAll();
