@@ -1,4 +1,4 @@
-/* Block Pop — © KOGAMES. Built 2026-10-27T06:07Z. Source: src/ */
+/* Block Pop — © KOGAMES. Built 2026-10-27T07:25Z. Source: src/ */
 (function(){'use strict';
 // ===== i18n.js =====
 // ===== i18n =====
@@ -29,7 +29,7 @@ const STR = {
   game_over:      ['게임 오버', 'Game Over', 'ゲームオーバー', 'Игра окончена', 'Fin del juego', 'Partie terminée'],
   new_record:     ['신기록!', 'NEW BEST!', '新記録！', 'Новый рекорд!', '¡Nuevo récord!', 'Nouveau record !'],
   revive:         ['이어하기', 'Continue', 'コンティニュー', 'Продолжить', 'Continuar', 'Continuer'],
-  revive_desc:    ['보드를 비우고 한 번 더! (1회)', 'Clear the board and keep going! (once)', 'ボードを空にしてもう一度！（1回）', 'Очисти поле и играй дальше! (1 раз)', '¡Vacía el tablero y sigue jugando! (1 vez)', 'Vide le plateau et continue ! (1 fois)'],
+  revive_desc:    ['보드를 비우고 한 번 더!', 'Clear the board and keep going!', 'ボードを空にしてもう一度！', 'Очисти поле и играй дальше!', '¡Vacía el tablero y sigue jugando!', 'Vide le plateau et continue !'],
   give_up:        ['그만하기', 'End run', '終了する', 'Завершить', 'Terminar', 'Terminer'],
   no_swaps:       ['교체 횟수를 다 썼어요', 'No swaps left', '交換はもう使えません', 'Замены закончились', 'No quedan cambios', 'Plus d\'échanges'],
   swapped:        ['새 블록으로 교체!', 'New blocks!', '新しいブロック！', 'Новые блоки!', '¡Bloques nuevos!', 'Nouveaux blocs !'],
@@ -76,7 +76,18 @@ const STR = {
   ach_unlocked:   ['업적 달성!', 'Achievement unlocked!', '実績解除！', 'Достижение получено!', '¡Logro desbloqueado!', 'Succès débloqué !'],
   destroyed:      ['파괴한 블록', 'Destroyed blocks', '破壊したブロック', 'Уничтожено блоков', 'Bloques destruidos', 'Blocs détruits'],
   tut_place:      ['블록을 놓아 보세요!', 'Place the blocks!', 'ブロックを置こう！', 'Поставь блок!', '¡Coloca los bloques!', 'Place les blocs !'],
+  tut_1:          ['블록을 끌어서 줄을 채워 보세요!', 'Drag the block to fill the row!', 'ブロックをドラッグして列を埋めよう！', 'Перетащи блок и заполни ряд!', '¡Arrastra el bloque y completa la fila!', 'Glisse le bloc pour remplir la ligne !'],
+  tut_2:          ['가로와 세로를 한 번에 터뜨려요!', 'Pop a row and a column at once!', '横と縦を同時に消そう！', 'Взорви ряд и столбец разом!', '¡Fila y columna de una sola vez!', 'Ligne et colonne d\'un seul coup !'],
+  tut_3:          ['연속으로 터뜨리면 콤보 보너스!', 'Clear in a row for a combo bonus!', '連続で消してコンボボーナス！', 'Убирай подряд — получишь комбо!', '¡Encadena líneas y gana combos!', 'Enchaîne les lignes : bonus combo !'],
+  tut_done:       ['완벽해요! 이제 직접 해 보세요', 'Perfect! Now it\'s your turn', 'パーフェクト！さあ自分でやってみよう', 'Отлично! Теперь сам', '¡Perfecto! Ahora te toca a ti', 'Parfait ! À toi de jouer'],
+  tut_nice:       ['잘했어요!', 'Nice!', 'いいね！', 'Отлично!', '¡Bien!', 'Bien joué !'],
   tut_great:      ['완벽해요!', 'Perfect!', 'パーフェクト！', 'Отлично!', '¡Perfecto!', 'Parfait !'],
+  ad_revive:      ['광고 보고 이어하기', 'Watch ad · Continue', '広告を見て続ける', 'Реклама · Продолжить', 'Ver anuncio · Continuar', 'Voir une pub · Continuer'],
+  revive_left:    ['남은 이어하기: {0}', 'Continues left: {0}', '残りコンティニュー: {0}', 'Осталось продолжений: {0}', 'Continuaciones restantes: {0}', 'Continuations restantes : {0}'],
+  ad_skip_level:  ['광고 보고 레벨 건너뛰기', 'Watch ad · Skip level', '広告を見てレベルをスキップ', 'Реклама · Пропустить уровень', 'Ver anuncio · Saltar nivel', 'Voir une pub · Passer le niveau'],
+  ad_not_finished:['광고를 끝까지 봐야 보상을 받아요', 'Finish the ad to get the reward', '最後まで見ると報酬がもらえます', 'Досмотри рекламу до конца, чтобы получить награду', 'Termina el anuncio para recibir la recompensa', 'Regarde la pub jusqu\'au bout pour la récompense'],
+  ad_unavailable: ['지금은 볼 수 있는 광고가 없어요', 'No ad available right now', '今は見られる広告がありません', 'Сейчас нет доступной рекламы', 'No hay anuncios disponibles ahora', 'Aucune pub disponible pour le moment'],
+  ad_loading:     ['광고 준비 중…', 'Loading ad…', '広告を準備中…', 'Загрузка рекламы…', 'Cargando anuncio…', 'Chargement de la pub…'],
   skip:           ['건너뛰기 >>', 'Skip >>', 'スキップ >>', 'Пропустить >>', 'Saltar >>', 'Passer >>'],
   unlimited:      ['무제한', 'Unlimited', '無制限', 'Без ограничений', 'Ilimitado', 'Illimité'],
   howto5:         ['테마에서 블록 색을 바꾸고, 업적에서 메달을 모아 보세요.', 'Change the block colors in Themes and collect medals in Achievements.', 'テーマでブロックの色を変え、実績でメダルを集めよう。', 'Меняй цвета блоков в темах и собирай медали в достижениях.', 'Cambia los colores en Temas y colecciona medallas en Logros.', 'Change les couleurs dans Thèmes et collectionne les médailles dans Succès.'],
@@ -243,6 +254,74 @@ const Sfx = {
       case 'revive':
         this.tone('sine', 220, 880, n, 0.02, 0.3, 0.35); break;
     }
+  },
+};
+// ===== ads.js =====
+// ===== ads =====
+// Google H5 Games Ads (AdSense Ad Placement API) — same integration as Candy Merge.
+// Placements: rewarded "revive" (classic + adventure), rewarded "skip_level" (adventure, after repeated fails),
+// interstitial "run_end" before a result card (only after ≥ MIN_PLAY seconds of play — Google throttles frequency).
+// Everything degrades gracefully: with an ad blocker or before AdSense approval, reward() resolves 'unavailable'
+// and interstitial() resolves immediately, so the game never hangs on ads.
+const ADS = { client: 'ca-pub-1318477289708440', MIN_PLAY: 25, MAX_REVIVES: 2, SKIP_AFTER_FAILS: 2 };
+
+const Ads = {
+  client: '', loaded: false, apiReady: false, testing: false, busy: false, onPause: null, onResume: null,
+  init(client, { sound = true, test = false, frequencyHint = '60s' } = {}) {
+    this.client = client; this.testing = test;
+    if (document.querySelector('script[data-h5-ads]')) return;
+    window.adsbygoogle = window.adsbygoogle || [];
+    if (!window.adBreak) { window.adBreak = window.adConfig = function (o) { window.adsbygoogle.push(o); }; }
+    const s = document.createElement('script');
+    s.async = true; s.crossOrigin = 'anonymous'; s.dataset.h5Ads = '1';
+    s.dataset.adFrequencyHint = frequencyHint;
+    if (test) s.dataset.adbreakTest = 'on';
+    s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(client);
+    s.onload = () => { this.loaded = true; };
+    document.head.appendChild(s);
+    // onReady only fires once the Ad Placement API is live for this AdSense account/site; until then every placement is skipped instantly.
+    window.adConfig({ preloadAdBreaks: 'on', sound: sound ? 'on' : 'off', onReady: () => { this.loaded = true; this.apiReady = true; } });
+  },
+  setSound(on) { try { window.adConfig && window.adConfig({ sound: on ? 'on' : 'off' }); } catch (e) {} },
+  available() { return this.apiReady && !!window.adBreak; },
+
+  // Rewarded ad. Resolves 'viewed' | 'dismissed' | 'unavailable'.
+  reward(name) {
+    return new Promise((resolve) => {
+      if (this.busy || !this.available()) { resolve('unavailable'); return; }
+      this.busy = true; let offered = false, done = false, paused = false;
+      const finish = (st) => { if (done) return; done = true; this.busy = false; clearTimeout(tm); if (paused) { paused = false; this.onResume && this.onResume(); } resolve(st); };
+      const tm = setTimeout(() => { if (!offered) finish('unavailable'); }, 6000);
+      try {
+        window.adBreak({
+          type: 'reward', name,
+          beforeReward: (showAdFn) => { offered = true; clearTimeout(tm); try { showAdFn(); } catch (e) { finish('unavailable'); } },
+          beforeAd: () => { paused = true; this.onPause && this.onPause(); },
+          afterAd: () => { if (paused) { paused = false; this.onResume && this.onResume(); } },
+          adDismissed: () => finish('dismissed'),
+          adViewed: () => finish('viewed'),
+          adBreakDone: (info) => { const st = info && info.breakStatus; if (!offered) finish('unavailable'); else finish(st === 'viewed' ? 'viewed' : 'dismissed'); },
+        });
+      } catch (e) { finish('unavailable'); }
+    });
+  },
+
+  // Interstitial ("next" placement). Always resolves; frequency is managed by Google.
+  interstitial(name) {
+    return new Promise((resolve) => {
+      if (this.busy || !this.available()) { resolve(false); return; }
+      this.busy = true; let shown = false, done = false, paused = false;
+      const finish = () => { if (done) return; done = true; this.busy = false; clearTimeout(tm); if (paused) { paused = false; this.onResume && this.onResume(); } resolve(shown); };
+      const tm = setTimeout(finish, shown ? 60000 : 2500);
+      try {
+        window.adBreak({
+          type: 'next', name,
+          beforeAd: () => { shown = true; paused = true; clearTimeout(tm); this.onPause && this.onPause(); },
+          afterAd: () => { if (paused) { paused = false; this.onResume && this.onResume(); } },
+          adBreakDone: () => finish(),
+        });
+      } catch (e) { finish(); }
+    });
   },
 };
 // ===== rank.js =====
@@ -814,8 +893,12 @@ const G = {
   score: 0, combo: 0, movesNoClear: 0, maxCombo: 0,
   linesRun: 0, placedRun: 0, poppedRun: 0,
   revived: false, over: false,
+  revives: 0,               // revives used this run (rewarded ad; free when ads are unavailable)
+  runStart: 0,              // performance.now() at run start → interstitials only after real play time
+  adPause: false,           // an ad is on screen → freeze the loop + mute
+  advFails: {},             // session: level → failed attempts (unlocks "watch ad · skip level")
   adv: null,                // { n, red, blue, pending }
-  tut: null,                // { gx, gy, done, t } first-run tutorial
+  tut: null,                // { board, step, steps, msg, done, t } first-run tutorial
   barT: 0,                  // "destroyed blocks" progress bar visibility timer
   setCount: 0,
   hintSwap: false,
@@ -876,8 +959,16 @@ function resetRun() {
   G.score = 0; G.combo = 0; G.movesNoClear = 0; G.maxCombo = 0;
   G.linesRun = 0; G.placedRun = 0; G.poppedRun = 0;
   G.revived = false; G.over = false; G.setCount = 0; G.tut = null; G.barT = 0; G.hintSwap = false; G.committed = false;
+  G.revives = 0; G.runStart = performance.now();
   Fx.clear();
 }
+function playedSeconds() { return (performance.now() - G.runStart) / 1000; }
+// Interstitial before a result card — only after real play time, and Google throttles the frequency itself.
+function adBreakThen(name, next) {
+  if (playedSeconds() < ADS.MIN_PLAY || !Ads.available()) { next(); return; }
+  Ads.interstitial(name).then(next, next);
+}
+function maxRevives() { return Ads.available() ? ADS.MAX_REVIVES : 1; }
 function startClassic() {
   if (!Save.d.tutDone) { startTutorial(); return; }
   resetRun();
@@ -897,17 +988,49 @@ function startAdventure(n) {
   Ui.enterGame();
 }
 
-// First-run tutorial: a wall with one gap, a single 1x4 bar, and a guiding hand.
-function startTutorial() {
+// First-run tutorial — three guided boards, like the original:
+//   1. drag a block to fill a row            2. pop a row and a column with one block
+//   3. three placements in a row → combo     Each board only accepts the guided move.
+// fill: [x0, x1, y0, y1] filled rectangles (inclusive). steps: pieces in the order the hand guides them.
+const TUT_BOARDS = [
+  { msg: 'tut_1', color: 3, fill: [[0, 2, 4, 4], [5, 7, 4, 4]],
+    steps: [{ cells: [[0, 0], [1, 0]], color: 6, slot: 1, gx: 3, gy: 4 }] },
+  { msg: 'tut_2', color: 5, fill: [[0, 3, 3, 3], [5, 7, 3, 3], [4, 4, 0, 2], [4, 4, 4, 7]],
+    steps: [{ cells: [[0, 0]], color: 2, slot: 1, gx: 4, gy: 3 }] },
+  { msg: 'tut_3', color: 1, fill: [[0, 4, 6, 6], [2, 7, 1, 1], [0, 5, 3, 4]],
+    steps: [
+      { cells: [[0, 0], [1, 0], [2, 0]], color: 6, slot: 0, gx: 5, gy: 6 },
+      { cells: [[0, 0], [1, 0]], color: 4, slot: 1, gx: 0, gy: 1 },
+      { cells: [[0, 0], [1, 0], [0, 1], [1, 1]], color: 7, slot: 2, gx: 6, gy: 3 },
+    ] },
+];
+function tutStep() { const tu = G.tut; return tu && !tu.done ? tu.steps[tu.step] : null; }
+function tutPiece() { const st = tutStep(); return st ? G.tray[st.slot] : null; }
+
+function startTutorial(board = 0) {
   resetRun();
   G.mode = 'classic'; G.adv = null;
-  G.tut = { gx: 2, gy: 3, done: false, t: 0 };
-  for (let y = 0; y < 8; y++) { if (y === 3) continue; for (let x = 2; x < 6; x++) G.grid[idx(x, y)] = { c: 3, gem: 0, b: 0 }; }
-  const bar = makePiece({ cells: [[0, 0], [1, 0], [2, 0], [3, 0]] }, 6);
-  bar.slot = 1; bar.appearT = 0.001;
-  G.tray = [null, bar, null];
+  const B = TUT_BOARDS[board];
+  G.tut = { board, step: 0, steps: B.steps, msg: B.msg, done: false, t: 0 };
+  for (const [x0, x1, y0, y1] of B.fill) for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) G.grid[idx(x, y)] = { c: B.color, gem: 0, b: 0 };
+  G.tray = [null, null, null];
+  B.steps.forEach((st, i) => { const p = makePiece({ cells: st.cells }, st.color); p.slot = st.slot; p.appearT = 0.001 + i * 0.08; G.tray[st.slot] = p; });
   layoutTray();
   Ui.enterGame();
+}
+function tutAdvance() {
+  const tu = G.tut; if (!tu || tu.done) return;
+  tu.step++;
+  if (tu.step < tu.steps.length) return;                   // same board, next guided piece
+  tu.done = true;
+  const last = tu.board >= TUT_BOARDS.length - 1;
+  if (last) { tu.msg = 'tut_done'; Save.d.tutDone = true; Save.save(); }
+  Fx.banner(t(last ? 'tut_great' : 'tut_nice'), 'allclear');
+  if (last) Sfx.play('allclear');
+  setTimeout(() => {
+    if (!G.tut) return;
+    if (last) { G.tut = null; startClassic(); } else startTutorial(tu.board + 1);
+  }, last ? 1600 : 1250);
 }
 function skipTutorial() {
   Save.d.tutDone = true; Save.save();
@@ -940,12 +1063,7 @@ function placeDraggedPiece(p, gx, gy, fromHold) {
     afterMove();
   }
 
-  if (G.tut && !G.tut.done) {
-    G.tut.done = true;
-    Save.d.tutDone = true; Save.save();
-    Fx.banner(t('tut_great'), 'allclear');
-    setTimeout(() => { if (G.tut) { G.tut = null; startClassic(); } }, 1400);
-  }
+  if (G.tut) tutAdvance();
 }
 
 function performClear(rows, cols, ox, oy, pts, n) {
@@ -1028,8 +1146,15 @@ function maybeLevelClear() {
     if (!Save.d.advDone.includes(n)) Save.d.advDone.push(n);
     Save.d.advUnlocked = Math.max(Save.d.advUnlocked, Math.min(Levels.COUNT, n + 1));
     Save.save();
-    setTimeout(() => Ui.showLevelClear(n), 900);
+    setTimeout(() => adBreakThen('level_clear', () => Ui.showLevelClear(n)), 900);
   }
+}
+// Adventure: after repeated fails on a level the player may skip it with a rewarded ad.
+function skipLevel(n) {
+  if (!Save.d.advDone.includes(n)) Save.d.advDone.push(n);
+  Save.d.advUnlocked = Math.max(Save.d.advUnlocked, Math.min(Levels.COUNT, n + 1));
+  Save.save();
+  startAdventure(Math.min(Levels.COUNT, n + 1));
 }
 
 function checkEnd() {
@@ -1046,7 +1171,7 @@ function checkEnd() {
 function gameOver() {
   G.over = true;
   Sfx.play('over');
-  if (!G.revived) { setTimeout(() => Ui.showRevive(), 650); return; }
+  if (G.revives < maxRevives()) { setTimeout(() => Ui.showRevive(), 650); return; }
   finishRun();
 }
 function commitTotals() {
@@ -1063,14 +1188,15 @@ function finishRun() {
     if (!Save.d.name) Save.d.name = Rank.defaultName();
     Save.save();
     Rank.submit(Save.d.best, Save.d.totDestroyed, Save.d.name, lang());
-    setTimeout(() => Ui.showGameOver(isNew), 300);
+    setTimeout(() => adBreakThen('game_over', () => Ui.showGameOver(isNew)), 300);
   } else {
     Save.save();
-    setTimeout(() => Ui.showLevelFailed(), 300);
+    if (G.adv) G.advFails[G.adv.n] = (G.advFails[G.adv.n] | 0) + 1;
+    setTimeout(() => adBreakThen('level_failed', () => Ui.showLevelFailed()), 300);
   }
 }
 function revive() {
-  G.revived = true; G.over = false;
+  G.revived = true; G.over = false; G.revives++;
   Sfx.play('revive');
   let d = 0;
   for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) {
@@ -1262,7 +1388,7 @@ const Ui = {
     const card = this.open(t('menu'), 'var(--cyan)');
     const sr = this.el('div', 'setting-row'); sr.appendChild(this.el('span', '', t('sound')));
     const tg = this.el('button', 'tgl' + (Save.d.sound ? ' on' : '')); tg.setAttribute('aria-label', t('sound'));
-    tg.onclick = () => { Save.d.sound = !Save.d.sound; Sfx.setOn(Save.d.sound); Save.save(); tg.classList.toggle('on', Save.d.sound); Sfx.play('click'); };
+    tg.onclick = () => { Save.d.sound = !Save.d.sound; Sfx.setOn(Save.d.sound); Save.save(); tg.classList.toggle('on', Save.d.sound); Sfx.play('click'); Ads.setSound(Save.d.sound); };
     sr.appendChild(tg); card.appendChild(sr);
     const grid = this.el('div', 'menu-grid');
     grid.appendChild(this.btn('🌐 ' + LANG_NAMES[lang()], 'c-blue', () => {
@@ -1419,7 +1545,17 @@ const Ui = {
   showRevive() {
     const card = this.open(t('game_over'), 'var(--red)', { noDismiss: true, noClose: true });
     card.appendChild(this.el('p', '', t('revive_desc')));
-    card.appendChild(this.btn('❤ ' + t('revive'), 'c-green wide', () => { this.closeAll(); revive(); }));
+    const withAd = Ads.available();
+    const left = maxRevives() - G.revives;
+    const rb = this.btn((withAd ? '📺 ' + t('ad_revive') : '❤ ' + t('revive')), 'c-green wide', async () => {
+      if (!withAd) { this.closeAll(); revive(); return; }
+      rb.disabled = true; this.toast(t('ad_loading'));
+      const st = await Ads.reward('revive');
+      if (st === 'viewed' || st === 'unavailable') { this.closeAll(); revive(); }   // no fill → still free (never punish the player for our ad gaps)
+      else { rb.disabled = false; this.toast(t('ad_not_finished')); }
+    });
+    card.appendChild(rb);
+    if (maxRevives() > 1) card.appendChild(this.el('p', 'note', t('revive_left', left)));
     card.appendChild(this.btn(t('give_up'), 'c-slate wide', () => { this.closeAll(); finishRun(); }));
   },
   showGameOver(isNew) {
@@ -1454,8 +1590,18 @@ const Ui = {
     card.appendChild(this.el('p', '', t('level_goal')));
     card.appendChild(this.el('div', 'stat-grid'));
     card.lastChild.appendChild(this.el('div', 'stat', `<b>${G.adv.red + G.adv.blue}</b><span>${t('gems_left')}</span>`));
+    const n = G.adv.n;
+    if (Ads.available() && (G.advFails[n] | 0) >= ADS.SKIP_AFTER_FAILS && n < Levels.COUNT) {
+      const sb = this.btn('📺 ' + t('ad_skip_level'), 'c-amber wide', async () => {
+        sb.disabled = true; this.toast(t('ad_loading'));
+        const st = await Ads.reward('skip_level');
+        if (st === 'viewed') { this.closeAll(); skipLevel(n); }
+        else { sb.disabled = false; this.toast(t(st === 'dismissed' ? 'ad_not_finished' : 'ad_unavailable')); }
+      });
+      card.appendChild(sb);
+    }
     const row = this.el('div', 'row');
-    row.appendChild(this.btn(t('retry'), 'c-green', () => { this.closeAll(); startAdventure(G.adv.n); }));
+    row.appendChild(this.btn(t('retry'), 'c-green', () => { this.closeAll(); startAdventure(n); }));
     row.appendChild(this.btn(t('home'), 'c-slate', () => this.goTitle()));
     card.appendChild(row);
   },
@@ -1495,7 +1641,7 @@ const bodyFont = (px, w = 800) => `${w} ${px}px Nunito, "Noto Sans KR", "Noto Sa
 const Metrics = {
   W: 0, H: 0, dpr: 1,
   boardX: 0, boardY: 0, B: 0, P: 0, cs: 0,
-  subH: 0, swapRect: [0, 0, 0, 0], holdRect: [0, 0, 0, 0], skipRect: [0, 0, 0, 0],
+  subH: 0, bandH: 0, swapRect: [0, 0, 0, 0], holdRect: [0, 0, 0, 0], skipRect: [0, 0, 0, 0],
   trayTop: 0, trayH: 0, slotW: 0, trayScale: 0.5,
   cellCenter(gx, gy) { return [this.boardX + this.P + (gx + 0.5) * this.cs, this.boardY + this.P + (gy + 0.5) * this.cs]; },
   cellXY(gx, gy) { return [this.boardX + this.P + gx * this.cs, this.boardY + this.P + gy * this.cs]; },
@@ -1522,12 +1668,13 @@ function layout() {
   hudBottom = clamp(hudBottom, 92, 170);
 
   const bm = 14;
-  const availH = M.H - hudBottom - bm;
+  M.bandH = G.tut ? clamp(M.W * 0.125, 40, 56) : 0;          // tutorial message band reserved above the board
+  const availH = M.H - hudBottom - bm - M.bandH;
   M.B = Math.min(M.W - 22, availH / 1.52);
   M.P = M.B * 0.028;
   M.cs = (M.B - 2 * M.P) / 8;
   M.boardX = (M.W - M.B) / 2;
-  M.boardY = hudBottom + Math.max(0, (availH - M.B * 1.52) * 0.3);
+  M.boardY = hudBottom + M.bandH + Math.max(0, (availH - M.B * 1.52) * 0.3);
   M.subH = M.B * 0.165;
 
   const swW = M.cs * 2.0, swH = M.cs * 1.02;
@@ -1588,7 +1735,8 @@ function updateSnap() {
   const gy = Math.round((tly - M.boardY - M.P) / M.cs);
   Drag.gx = gx; Drag.gy = gy;
   Drag.valid = gx >= 0 && gy >= 0 && gx + p.w <= 8 && gy + p.h <= 8 && canPlaceAt(p.cells, gx, gy);
-  if (G.tut && Drag.valid && !(gx === G.tut.gx && gy === G.tut.gy)) Drag.valid = false;
+  const st = tutStep();
+  if (st && Drag.valid && !(gx === st.gx && gy === st.gy)) Drag.valid = false;
   Drag.rows.length = 0; Drag.cols.length = 0;
   if (Drag.valid) {
     const ghost = new Set(p.cells.map(([cx, cy]) => idx(gx + cx, gy + cy)));
@@ -1609,6 +1757,7 @@ function onDown(e) {
 
   const hit = pieceAtPoint(px, py);
   if (!hit) return;
+  if (G.tut) { const cur = tutPiece(); if (!cur || hit.p !== cur) { if (cur) Sfx.play('back'); return; } }   // only the guided piece moves
   canvas.setPointerCapture(e.pointerId);
   Drag.p = hit.p; Drag.from = hit.from;
   Drag.touch = e.pointerType !== 'mouse';
@@ -1956,25 +2105,35 @@ function drawTutorial(dt) {
   const tu = G.tut; if (!tu) return;
   const M = Metrics, T = Theme.cur;
   tu.t += dt;
-  // banner band above the board
-  const bh = M.cs * 0.95, by = M.boardY - bh - 6;
+  // banner band above the board: message + "board n of 3" dots
+  const bh = (M.bandH || M.cs * 1.12) - 6, by = M.boardY - bh - 5;
   ctx.save();
   ctx.fillStyle = T.light ? 'rgba(40,60,140,0.85)' : 'rgba(12,14,40,0.72)';
   ctx.fillRect(0, by, M.W, bh);
-  ctx.fillStyle = '#fff'; ctx.font = fontStr(bh * 0.5, 700); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText(t('tut_place'), M.W / 2, by + bh / 2 + 1);
+  ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  const msg = t(tu.msg); let fs = bh * 0.42; ctx.font = fontStr(fs, 700);
+  while (fs > bh * 0.26 && ctx.measureText(msg).width > M.W - 32) { fs -= 1; ctx.font = fontStr(fs, 700); }   // long translations shrink to fit
+  ctx.fillText(msg, M.W / 2, by + bh * 0.4 + 1);
+  const nB = TUT_BOARDS.length, dr = bh * 0.07, gap = dr * 5;
+  for (let i = 0; i < nB; i++) {
+    const cx = M.W / 2 + (i - (nB - 1) / 2) * gap, cy = by + bh * 0.8;
+    const on = i < tu.board || (i === tu.board && tu.done), cur = i === tu.board && !tu.done;
+    ctx.beginPath(); ctx.arc(cx, cy, cur ? dr * 1.25 : dr, 0, Math.PI * 2);
+    ctx.fillStyle = on ? '#ffd24a' : cur ? '#ffffff' : 'rgba(255,255,255,0.3)'; ctx.fill();
+  }
   ctx.restore();
   if (tu.done) return;
+  const st = tu.steps[tu.step];
   // target ghost pulse
-  const piece = G.tray[1] || Drag.p;
+  const piece = G.tray[st.slot];
   if (piece && !Drag.p) {
     ctx.save(); ctx.globalAlpha = 0.5 + Math.sin(tu.t * 5) * 0.25;
-    for (const [cx, cy] of piece.cells) { const [px, py] = M.cellXY(tu.gx + cx, tu.gy + cy); ctx.drawImage(Sprites.cache.ghost, px, py, M.cs, M.cs); }
+    for (const [cx, cy] of piece.cells) { const [px, py] = M.cellXY(st.gx + cx, st.gy + cy); ctx.drawImage(Sprites.cache.ghost, px, py, M.cs, M.cs); }
     ctx.restore();
     // guiding hand loop
     const L = 2.1, k = (tu.t % L) / L;
-    const [sx, sy] = M.slotCenter(1);
-    const [tx0, ty0] = M.cellXY(tu.gx, tu.gy);
+    const [sx, sy] = M.slotCenter(st.slot);
+    const [tx0, ty0] = M.cellXY(st.gx, st.gy);
     const tx = tx0 + (piece.w * M.cs) / 2, ty = ty0 + (piece.h * M.cs) / 2;
     let hx = sx, hy = sy, alpha = 1, pressed = false;
     if (k < 0.15) { alpha = k / 0.15; }
@@ -2060,6 +2219,7 @@ function drawFlights() {
 let lastT = 0;
 function frame(ts) {
   requestAnimationFrame(frame);
+  if (G.adPause) { lastT = ts; return; }                  // an ad is on screen: freeze everything underneath
   const dt = clamp((ts - lastT) / 1000, 0, 0.05);
   lastT = ts;
   G.time += dt;
@@ -2106,11 +2266,17 @@ function boot() {
   if (window.visualViewport) window.visualViewport.addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(layout, 120); });
 
   requestAnimationFrame((ts) => { lastT = ts; requestAnimationFrame(frame); });
+
+  // Ads (H5 Games Ads). Test ads everywhere except the live site, or with ?adtest=1 on the live site.
+  Ads.onPause = () => { G.adPause = true; Sfx.setOn(false); if (Drag.p) { endDrag(); layoutTray(); } };
+  Ads.onResume = () => { G.adPause = false; Sfx.setOn(Save.d.sound !== false); };
+  Ads.init(ADS.client, { sound: Save.d.sound !== false, test: location.hostname !== 'kogames.dev' || /[?&]adtest=1/.test(location.search) });
+
   if (location.hash === '#about' || location.hash === '#howto') setTimeout(() => Ui.showHowTo(), 300);
   else if (location.hash === '#ranking') setTimeout(() => Ui.showRanking(), 300);
 
   // tiny debug/testing handle (also used to render store assets from the real renderer)
-  window.__bp = { G, Save, Ui, Fx, Sprites, Theme, THEMES, THEME_IDS, PALETTE, Levels, Metrics, Drag, drawLogo, startClassic, startAdventure, startTutorial, skipTutorial, layout, setLang, t, idx, ACH, achProgress };
+  window.__bp = { G, Save, Ui, Fx, Sprites, Theme, THEMES, THEME_IDS, PALETTE, Levels, Metrics, Drag, drawLogo, startClassic, startAdventure, startTutorial, skipTutorial, skipLevel, revive, finishRun, Ads, ADS, TUT_BOARDS, tutStep, layout, setLang, t, idx, ACH, achProgress };
 }
 boot();
 })();
