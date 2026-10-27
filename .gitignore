@@ -1,0 +1,3 @@
+test/shots/
+test/node_modules/
+*.jpg.tmp
