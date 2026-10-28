@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Block Pop Guide — Combo Scoring, Piece List and Adventure Tips</title>
+<meta name="description" content="The official Block Pop guide: exact scoring and the combo rule, all fifteen pieces and when they appear, how the hold box and skip work, board habits, and how to beat the 60 gem-collecting Adventure levels.">
+<link rel="canonical" href="https://kogames.dev/block-pop/guide/">
+<link rel="alternate" hreflang="en" href="https://kogames.dev/block-pop/guide/">
+<link rel="alternate" hreflang="ko" href="https://kogames.dev/block-pop/guide/ko/">
+<link rel="alternate" hreflang="x-default" href="https://kogames.dev/block-pop/guide/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="KOGAMES">
+<meta property="og:title" content="Block Pop Guide — Combo Scoring, Piece List and Adventure Tips">
+<meta property="og:description" content="The official Block Pop guide: exact scoring and the combo rule, all fifteen pieces and when they appear, how the hold box and skip work, board habits, and how to beat the 60 gem-collecting Adventure levels.">
+<meta property="og:url" content="https://kogames.dev/block-pop/guide/">
+<meta property="og:image" content="https://kogames.dev/block-pop/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.png" type="image/png">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+.doc .lead{font-size:18px;color:var(--muted);margin:0 0 20px}
+.doc figure{margin:18px 0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--card)}
+.doc figure img{width:100%;height:auto}
+.doc figcaption{padding:10px 14px;font-size:13px;color:var(--muted)}
+.doc .tip{border-left:3px solid var(--accent);background:var(--card);padding:12px 16px;border-radius:0 12px 12px 0;margin:16px 0}
+.doc .tip p{margin:0}
+.doc .cta{display:flex;flex-wrap:wrap;gap:10px;margin:32px 0 0}
+.doc .kbd{font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--bg-2);border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-size:13px}
+.doc .pieces{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 6px}
+.doc .pieces figure{margin:0;padding:10px 8px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:84px}
+.doc .pieces figcaption{padding:0;font-size:12px;text-align:center}
+.doc .pieces svg{display:block}
+.doc .board{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;width:min(100%,272px);margin:12px 0}
+.doc .board i{aspect-ratio:1;border-radius:4px;background:var(--bg-2);border:1px solid var(--line)}
+.doc .board i.b{background:#5a6cff;border-color:#7c8cff}
+.doc .board i.g{background:#ff4d6d;border-color:#ff8aa0}
+.doc .board i.o{background:#ffc94d;border-color:#ffe08a}
+.doc .log h2{border-top:0;padding-top:0;margin:34px 0 4px;font-size:19px}
+.doc .log .date{color:var(--accent);font-size:13px;font-weight:700;letter-spacing:.08em;margin:0}
+.doc .log ul{margin:6px 0 0}
+.doc .meta a{color:var(--accent)}
+.doc table td:first-child{white-space:nowrap}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Block Pop guide: combos, piece odds and how to clear Adventure levels","description":"The official Block Pop guide: exact scoring and the combo rule, all fifteen pieces and when they appear, how the hold box and skip work, board habits, and how to beat the 60 gem-collecting Adventure levels.","inLanguage":"en","datePublished":"2026-10-28","dateModified":"2026-10-28","author":{"@type":"Organization","name":"KOGAMES","url":"https://kogames.dev/"},"publisher":{"@type":"Organization","name":"KOGAMES","url":"https://kogames.dev/"},"image":"https://kogames.dev/block-pop/assets/og.jpg","mainEntityOfPage":"https://kogames.dev/block-pop/guide/","about":{"@type":"VideoGame","name":"Block Pop","url":"https://kogames.dev/block-pop/"}}</script>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="brand" href="/"><img class="brand-logo" src="/assets/logo.png" alt="KOGAMES" width="123" height="32"></a>
+  <ul><li class="hide-sm"><a href="/#games">Games</a></li><li><a href="/block-pop/">Play Block Pop</a></li><li class="hide-sm"><a href="/block-pop/updates/">Updates</a></li><li class="lang-nav"><details class="lang-menu"><summary aria-label="Language"><svg class="globe" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm-9 9h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z"/></svg><span>English</span></summary><div class="lang-list"><a href="/block-pop/guide/" lang="en" hreflang="en" aria-current="true">English</a><a href="/block-pop/guide/ko/" lang="ko" hreflang="ko">한국어</a></div></details></li></ul>
+</div></header>
+<main class="wrap doc">
+<article>
+
+<p class="lang-switch"><a href="/block-pop/guide/" aria-current="true">English</a><a href="/block-pop/guide/ko/">한국어</a></p>
+<h1>Block Pop guide: combos, piece odds and how to clear Adventure levels</h1>
+<p class="meta">Updated October 28, 2026 · by KOGAMES · <a href="/block-pop/">Play Block Pop</a> · <a href="/block-pop/updates/">Update notes</a></p>
+<p class="lead">Block Pop looks like a game about fitting shapes, but the score comes almost entirely from <em>combos</em> — clearing lines on consecutive moves. Once you play for the combo instead of for the single clear, scores roughly triple. This guide explains the exact scoring, which pieces the game deals and when, how the hold box and skip work, and a level-by-level approach to the 60 Adventure boards. Every number here is taken from the game itself.</p>
+
+<nav class="toc" aria-label="Contents"><ol>
+<li><a href="#score">How scoring works</a></li><li><a href="#combo">The combo rule</a></li>
+<li><a href="#pieces">Every piece in the game</a></li><li><a href="#tray">The tray, the hold box and skip</a></li>
+<li><a href="#habits">Board habits that keep you alive</a></li><li><a href="#adventure">Adventure mode: 60 gem levels</a></li>
+<li><a href="#revive">Continues, achievements and themes</a></li><li><a href="#faq">Quick answers</a></li>
+</ol></nav>
+
+<h2 id="score">How scoring works</h2>
+<p>Placing a piece scores <strong>1 point per cell</strong>, so a 3×3 block is worth 9 just for landing. The real money is in clearing: when a placement completes <em>n</em> full rows and columns at once, you score <strong>n × 10 × combo</strong>, where combo is the number of consecutive clearing moves you are on.</p>
+<table>
+<tr><th>Clear</th><th>Combo 1</th><th>Combo 3</th><th>Combo 6</th></tr>
+<tr><td>1 line</td><td>10</td><td>30</td><td>60</td></tr>
+<tr><td>2 lines (row + column)</td><td>20</td><td>60</td><td>120</td></tr>
+<tr><td>3 lines</td><td>30</td><td>90</td><td>180</td></tr>
+<tr><td>4 lines</td><td>40</td><td>120</td><td>240</td></tr>
+</table>
+<p>Lines are counted before anything is removed, so a row and a column that cross each other both count. Clearing a row and a column in one move on combo 6 pays 120 points — the same as placing 120 single cells.</p>
+
+<h2 id="combo">The combo rule</h2>
+<p>Your combo goes up by one every move that clears at least one line. It survives up to <strong>two</strong> non-clearing moves in a row; on the third move without a clear it resets to zero. Using <strong>Skip</strong> also resets it immediately.</p>
+<p>That two-move grace is the whole strategy. You do not need to clear every move; you need to clear at least every third move. So the rhythm of a good run is: clear, set up, set up, clear, clear, set up, clear… Always know which of your three pieces will complete a line within the next two placements.</p>
+<div class="tip"><p><strong>The "destroyed blocks" bar</strong> under the board fills as you pop blocks; the number in the corner is your current combo. If it reads 0, stop building and take the first clear you can find to get the multiplier back.</p></div>
+
+<h2 id="pieces">Every piece in the game</h2>
+<p>There are fifteen shapes (rotations appear as separate pieces, so a 1×3 can come horizontal or vertical). Early in a run the small pieces are common; as your score climbs towards 3,500 the odds shift towards the big ones — 1×5s, 3×3s, 2×3s and big corners — and stay there.</p>
+<div class="pieces"><figure><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="0" y="0" width="16" height="16" rx="3" fill="#ffc94d"/></svg><figcaption>1×1</figcaption></figure><figure><svg width="34" height="16" viewBox="0 0 34 16" aria-hidden="true"><rect x="0" y="0" width="16" height="16" rx="3" fill="#7c8cff"/><rect x="18" y="0" width="16" height="16" rx="3" fill="#7c8cff"/></svg><figcaption>1×2</figcaption></figure><figure><svg width="52" height="16" viewBox="0 0 52 16" aria-hidden="true"><rect x="0" y="0" width="16" height="16" rx="3" fill="#7c8cff"/><rect x="18" y="0" width="16" height="16" rx="3" fill="#7c8cff"/><rect x="36" y="0" width="16" height="16" rx="3" fill="#7c8cff"/></svg><figcaption>1×3</figcaption></figure><figure><svg width="70" height="16" viewBox="0 0 70 16" aria-hidden="true"><rect x="0" y="0" width="16" height="16" rx="3" fill="#7c8cff"/><rect x="18" y="0" width="16" height="16" rx="3" fill="#7c8cff"/><rect x="36" y="0" width="16" height="16" rx="3" fill="#7c8cff"/><rect x="54" y="0" width="16" height="16" rx="3" fill="#7c8cff"/></svg><figcaption>1×4</figcaption></figure><figure><svg width="88" height="16" viewBox="0 0 88 16" aria-hidden="true"><rect x="0" y="0" width="16" height="16" rx="3" fill="#7c8cff"/><rect x="18" y="0" width="16" height="16" rx="3" fill="#7c8cff"/><rect x="36" y="0" width="16" height="16" rx="3" fill="#7c8cff"/><rect x="54" y="0" width="16" height="16" rx="3" fill="#7c8cff"/><rect x="72" y="0" width="16" height="16" rx="3" fill="#7c8cff"/></svg><figcaption>1×5</figcaption></figure><figure><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="0" y="0" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="18" y="0" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="0" y="18" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="18" y="18" width="16" height="16" rx="3" fill="#4fd8a0"/></svg><figcaption>2×2</figcaption></figure><figure><svg width="52" height="34" viewBox="0 0 52 34" aria-hidden="true"><rect x="0" y="0" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="18" y="0" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="36" y="0" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="0" y="18" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="18" y="18" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="36" y="18" width="16" height="16" rx="3" fill="#4fd8a0"/></svg><figcaption>2×3</figcaption></figure><figure><svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><rect x="0" y="0" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="18" y="0" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="36" y="0" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="0" y="18" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="18" y="18" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="36" y="18" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="0" y="36" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="18" y="36" width="16" height="16" rx="3" fill="#4fd8a0"/><rect x="36" y="36" width="16" height="16" rx="3" fill="#4fd8a0"/></svg><figcaption>3×3</figcaption></figure><figure><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="0" y="0" width="16" height="16" rx="3" fill="#ff8a5b"/><rect x="18" y="0" width="16" height="16" rx="3" fill="#ff8a5b"/><rect x="0" y="18" width="16" height="16" rx="3" fill="#ff8a5b"/></svg><figcaption>Small corner</figcaption></figure><figure><svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><rect x="0" y="0" width="16" height="16" rx="3" fill="#ff8a5b"/><rect x="0" y="18" width="16" height="16" rx="3" fill="#ff8a5b"/><rect x="0" y="36" width="16" height="16" rx="3" fill="#ff8a5b"/><rect x="18" y="36" width="16" height="16" rx="3" fill="#ff8a5b"/><rect x="36" y="36" width="16" height="16" rx="3" fill="#ff8a5b"/></svg><figcaption>Big corner</figcaption></figure><figure><svg width="34" height="52" viewBox="0 0 34 52" aria-hidden="true"><rect x="0" y="0" width="16" height="16" rx="3" fill="#ff5fa8"/><rect x="0" y="18" width="16" height="16" rx="3" fill="#ff5fa8"/><rect x="0" y="36" width="16" height="16" rx="3" fill="#ff5fa8"/><rect x="18" y="36" width="16" height="16" rx="3" fill="#ff5fa8"/></svg><figcaption>L</figcaption></figure><figure><svg width="34" height="52" viewBox="0 0 34 52" aria-hidden="true"><rect x="18" y="0" width="16" height="16" rx="3" fill="#ff5fa8"/><rect x="18" y="18" width="16" height="16" rx="3" fill="#ff5fa8"/><rect x="18" y="36" width="16" height="16" rx="3" fill="#ff5fa8"/><rect x="0" y="36" width="16" height="16" rx="3" fill="#ff5fa8"/></svg><figcaption>J</figcaption></figure><figure><svg width="52" height="34" viewBox="0 0 52 34" aria-hidden="true"><rect x="18" y="0" width="16" height="16" rx="3" fill="#b48bff"/><rect x="36" y="0" width="16" height="16" rx="3" fill="#b48bff"/><rect x="0" y="18" width="16" height="16" rx="3" fill="#b48bff"/><rect x="18" y="18" width="16" height="16" rx="3" fill="#b48bff"/></svg><figcaption>S</figcaption></figure><figure><svg width="52" height="34" viewBox="0 0 52 34" aria-hidden="true"><rect x="0" y="0" width="16" height="16" rx="3" fill="#b48bff"/><rect x="18" y="0" width="16" height="16" rx="3" fill="#b48bff"/><rect x="18" y="18" width="16" height="16" rx="3" fill="#b48bff"/><rect x="36" y="18" width="16" height="16" rx="3" fill="#b48bff"/></svg><figcaption>Z</figcaption></figure><figure><svg width="52" height="34" viewBox="0 0 52 34" aria-hidden="true"><rect x="0" y="0" width="16" height="16" rx="3" fill="#5ad1ff"/><rect x="18" y="0" width="16" height="16" rx="3" fill="#5ad1ff"/><rect x="36" y="0" width="16" height="16" rx="3" fill="#5ad1ff"/><rect x="18" y="18" width="16" height="16" rx="3" fill="#5ad1ff"/></svg><figcaption>T</figcaption></figure></div>
+<p>The three pieces that end most games are the <strong>3×3</strong>, the <strong>1×5</strong> and the <strong>big corner</strong>. They need a clean 3×3 pocket, a full-length lane, or an L-shaped gap respectively. If none of those exist on your board when the piece arrives, you are usually one or two moves from game over.</p>
+
+<h2 id="tray">The tray, the hold box and skip</h2>
+<ul>
+<li><strong>Three pieces at a time.</strong> You must place all three before the next set is dealt. The first piece of every set is checked to fit somewhere on your board (if anything can); the other two are random.</li>
+<li><strong>Hold box.</strong> Drag any tray piece into the box to keep it. Drop another piece onto an occupied box and they swap. A held 1×1 or 1×2 is the best insurance in the game: it finishes almost any line and costs nothing to keep.</li>
+<li><strong>Skip.</strong> Deals a fresh set of three, as many times as you like — but it resets your combo. Use it when the tray is unplayable, never to fish for a nicer piece mid-combo.</li>
+<li><strong>Game over</strong> happens only when no tray piece fits, the held piece does not fit, and the hold box is already occupied. Keeping the box empty when the board gets tight gives you one more out.</li>
+</ul>
+
+<h2 id="habits">Board habits that keep you alive</h2>
+<div class="board" role="img" aria-label="Example board: the bottom three rows are mostly filled on the left, a 3×3 pocket is kept empty at the bottom right"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="b"></i><i class="b"></i><i class="b"></i><i></i><i></i><i></i><i></i><i></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i></i><i></i><i></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i></i><i></i><i></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i></i><i></i><i class="o"></i></div>
+<ol>
+<li><strong>Keep a 3×3 pocket open</strong> in a corner (bottom right in the picture). The moment it is filled by a 3×3 block, that block should also complete a row or column. Then rebuild the pocket.</li>
+<li><strong>Build from one corner outward.</strong> Fill the bottom-left first and grow up and right, so empty space stays connected in one region rather than scattered holes.</li>
+<li><strong>Never leave a single isolated cell.</strong> A lone hole can only be filled by a 1×1, which gets rarer as you score. Two adjacent holes can take a 1×2; a notch of three takes a corner piece.</li>
+<li><strong>Aim for crosses.</strong> Lining up a row and a column to complete on the same placement doubles the clear and keeps the combo with one piece instead of two.</li>
+<li><strong>Clear from the middle rows.</strong> A board that is full at the edges and empty in the middle gives every piece a place to land; the reverse traps you.</li>
+</ol>
+
+<h2 id="adventure">Adventure mode: 60 gem levels</h2>
+<p>Adventure boards start partly filled, and some of the preset blocks hold a <strong>red or blue gem</strong>. The goal is to collect every gem by clearing a row or column through its block; the counters at the top show how many of each colour remain. The pieces you are dealt are from the mid-game mix, so expect 2×3s and corners from the first move.</p>
+<p>Levels follow eight board patterns that repeat with rising difficulty every eight levels: a scattered floor, pillars, side walls with a floor, a checkerboard belt, a staircase, and three more. Some practical rules:</p>
+<ul>
+<li><strong>Read the gems first.</strong> Each gem has exactly two lines that can free it (its row and its column). Decide which one is cheaper to complete and build only that line.</li>
+<li><strong>Pillar levels:</strong> clear rows, not columns — a row through the pillars frees several gems at once.</li>
+<li><strong>Wall levels:</strong> the empty middle is your workspace; complete the rows that already have the walls in them, since those rows need only a few cells.</li>
+<li><strong>Staircase levels:</strong> start at the tall end; the short end stays open for the big pieces you will be dealt later.</li>
+<li>If a level beats you a few times in a row, the game offers to <strong>skip it after an ad</strong>. The levels you skip stay cleared.</li>
+</ul>
+
+<h2 id="revive">Continues, achievements and themes</h2>
+<p>When no piece fits you can <strong>continue after an ad</strong>: the board is cleared of enough blocks to keep going, up to twice per run (once, free, if ads are unavailable). Two achievement tracks run across all games: total score at 1,000 / 5,000 / 20,000 and blocks destroyed at 500 / 2,500 / 10,000, each with bronze, silver and gold. Colour themes change the board and block palette only; they have no effect on play. The world ranking, if you enter a nickname, keeps your best Classic score and nothing else.</p>
+
+<h2 id="faq">Quick answers</h2>
+<ul>
+<li><strong>Do rotations count as different pieces?</strong> Yes. You cannot rotate a piece after it is dealt, so a vertical 1×4 and a horizontal 1×4 are separate draws.</li>
+<li><strong>Why did my combo drop to zero?</strong> Either you went three moves without clearing, or you pressed Skip.</li>
+<li><strong>Is Adventure progress saved?</strong> Yes, in your browser on the device you play on, along with your best score and achievements.</li>
+<li><strong>What is a good Classic score?</strong> 5,000 means you are keeping combos alive; 20,000 is the gold achievement and takes real board discipline.</li>
+</ul>
+<div class="cta"><a class="btn primary" href="/block-pop/">Play Block Pop</a><a class="btn" href="/block-pop/updates/">What's new</a><a class="btn" href="/">All KOGAMES games</a></div>
+
+</article>
+</main>
+<footer><div class="wrap"><div class="foot-left"><img class="foot-logo" src="/assets/logo.png" alt="KOGAMES" width="92" height="24" loading="lazy"><div>© 2026 KOGAMES. All rights reserved.</div></div><nav><a href="/block-pop/">Block Pop</a><a href="/block-pop/updates/">Updates</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav></div></footer>
+<script>document.addEventListener("click",function(e){document.querySelectorAll("details.lang-menu[open]").forEach(function(d){if(!d.contains(e.target))d.removeAttribute("open")})});</script>
+</body>
+</html>
